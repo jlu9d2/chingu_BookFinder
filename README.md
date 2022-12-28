@@ -7,10 +7,6 @@ A book finding app that uses the google books API and searches based on book tit
 
 ## Acknowledgements
 
-
-LINK TO CODEPEN:
-https://codepen.io/codejoy9d2/pen/XWEQNWX
-
 _I used the google books API for this book search project
 
 _I used margin and padding alot to align the elements but I think I could have used a different, more efficient method. For the sake of saving time I went with what I was most comfortable
