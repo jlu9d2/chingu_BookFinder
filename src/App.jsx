@@ -6,41 +6,41 @@ import axios from 'axios';
 const App = () => {
   const [searchTitle, setSearchTitle] = useState('');
   const [bookAuthor, setBookAuthor] = useState('');
-  const [books, setBooks] = useState([]);//fetches books with author and title
-
-  const getBooks = async (title) => {
+  const [books, setBooks] = useState([]);
+  const [indexPage, setIndexPage] = useState(0);
+  const getBooks = async () => {
     const baseURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-    const query = title.split(' ').join('+');
+    const query = searchTitle.split(' ').join('+');
     const author = bookAuthor.split(' ').join('+');
-    const index = 0;
-    const url = `${baseURL}${query}:${author}`;
+    const page = `&maxResults=10&startIndex=${indexPage}`
+    const url = `${baseURL}${query}:${author}${page}`;
 
     try {
       const response = await axios.get(url);
       setBooks(response.data.items)
+      setTotalBooks(response.data.totalItems)
     } catch (error) {
       console.log(error);
     }
   }
 
-  const handleSearchTitle = (e) => {//updates book title state
-    let search = e.target.value;
-    setSearchTitle(search.toLowerCase());
+  console.log(books, "books")
+
+  const handleNextPage = () => {
+    let newIndex = indexPage + 10;
+    let updatedIndex = newIndex > books.length - 1 ? books.length - 1 : newIndex;
+    setIndexPage(updatedIndex)
+    getBooks();
   }
 
-  const handleBookAuthor = (e) => {//updates book author
-    let author = e.target.value;
-    setBookAuthor(author.toLowerCase());
+  const handlePrevPage = () => {
+    let newIndex = indexPage - 10;
+    let updatedIndex = newIndex < 0 ? 0 : newIndex;
+    setIndexPage(updatedIndex);
+    getBooks();
   }
-  
-  const handleSearch = () => { 
-    let title = searchTitle.includes(' ') ? [searchTitle.split(' ')].join('+') : searchTitle;
 
-    getBooks(title);
-  }
-  console.log(books[0], 'book');
   return (
-      
     <div>
       <header className='header'>
         <div className="header__content container">
@@ -51,21 +51,23 @@ const App = () => {
                 onChange={(e) => setSearchTitle(e.target.value)}
               />
               <input className="book-author" type="text" id="searchbar" name="searchbar" placeholder="Book author"
-                onChange={handleBookAuthor}
+                onChange={(e) => setBookAuthor(e.target.value)}
               />
             </div>
               
-            <button className="search-btn" type="submit" onClick={() => getBooks(searchTitle)}>Search</button>
+            <button className="search-btn" type="submit"
+              onClick={() => getBooks()}>Search</button>
           </div>
         </div>
       </header>
 
       <Cards books={books} />
+      <div className="page-nav">
+        <button className="previous-page" onClick={handlePrevPage}>Previous</button>
+        <button className="next-page" onClick={handleNextPage}>Next</button>
+      </div>
     </div>
-
   )
 }
 
 export default App;
-//api key:
-//AIzaSyC44xtP0-GcP13n6dJaNQzrcTKdBoYaGWY

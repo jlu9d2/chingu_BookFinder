@@ -17,7 +17,6 @@
 
 
 /* MY CSS */
-
 *,
 *::before,
 *::after {
@@ -28,10 +27,16 @@ html {
   font-size: 62.5%;
 }
 
-html, header, h1, body {
+header, h1, h2, body {
   margin: 0;
   padding: 0;
 }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
 
 /*header*/
 header {
@@ -39,20 +44,24 @@ header {
   background-size: cover;
   padding: 5rem 0;
   text-align: center;
-
 }
 
-.header__elements {
-  margin: 0 auto;
-  width: 50%;
-  padding-bottom: 5em;
+.header__content.container {
+  max-width: 30em;
+}
+
+.header__content > * + * {
+  margin-top: 1.5rem;
+}
+
+.search-bar > * + * {
+  margin-top: 1rem;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
   color: white;
-  padding-bottom: .5em;
 }
 
 input {
@@ -62,8 +71,7 @@ input {
   color: var(--dark);
 }
 
-.search-btn, .card__btn-cta {
-  margin-top: 1.5em;
+.search-btn, .card__btn-cta, .next-page, .previous-page {
   padding: .6em 2em;
   border: none;
   text-transform: uppercase;
@@ -71,8 +79,17 @@ input {
   background-color: var(--light);
   color: var(--txt-dark);
   letter-spacing: .25px;
-
 }
+
+.search__inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.search__inputs > * {
+  flex: 1;
+}
+
 
 /*main content*/
 
@@ -93,10 +110,11 @@ span {
 .card {
   border: .25em solid var(--bg--shade);
   border-radius: 20px;
-  padding: 2em;
+  padding: 1em;
   text-align: center;
   background-color: var(--bg--tint);
 }
+
 
 .card__title,
 .card__info,
@@ -105,8 +123,16 @@ span {
   margin: 0;
 }
 
+.card > * + * {
+  margin-top: 1rem;
+}
+
+.card__img-container {
+  display: flex;
+  justify-content: center;
+}
+
 .card__img {
-  margin: 1.5em 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -133,7 +159,22 @@ a {
   margin: 0 auto;
 }
 
+.next-page, .previous-page {
+  width: 10rem;
+}
+
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin: 0 auto;
+  padding-bottom: 1em;
+}
+
 @media (min-width: 30em) {
+  .search__inputs {
+    flex-direction: row;
+  }
 
   .cards {
     grid-template-columns: repeat(2, 1fr);
@@ -148,5 +189,4 @@ a {
   .cards {
     grid-template-columns: repeat(3, 1fr);
   }
-  
 }
